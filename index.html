@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Anvi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,300;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5ede1;
+    --cream-light: #faf4ea;
+    --peach: #f0c8a3;
+    --rose: #d88b7a;
+    --rose-deep: #b8685a;
+    --deep: #3d2817;
+    --gold: #b8895a;
+    --ink: #2a1810;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: multiply;
+  }
+
+  section {
+    min-height: 100vh;
+    padding: 5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  /* ============ MUSIC TOGGLE ============ */
+  .music-toggle {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+    background: rgba(245, 237, 225, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(61, 40, 23, 0.15);
+    border-radius: 999px;
+    padding: 0.6rem 1.2rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--deep);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  .music-toggle:hover { background: var(--cream); }
+  .music-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rose);
+    animation: pulseMusic 1.5s ease-in-out infinite;
+  }
+  .music-toggle.paused .music-icon { animation: none; background: var(--gold); }
+  @keyframes pulseMusic {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+
+  /* ============ CHAPTER 1: ARRIVAL ============ */
+  .chapter-arrival {
+    background: radial-gradient(ellipse at 30% 20%, #f8d4b8 0%, var(--cream) 60%);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.5;
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb-1 { width: 300px; height: 300px; background: var(--peach); top: 10%; left: 5%; animation-delay: 0s; }
+  .orb-2 { width: 400px; height: 400px; background: var(--rose); bottom: 10%; right: 5%; animation-delay: -4s; }
+  .orb-3 { width: 200px; height: 200px; background: var(--gold); top: 50%; left: 60%; animation-delay: -2s; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -40px) scale(1.1); }
+  }
+
+  .arrival-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 0.3s forwards;
+  }
+
+  .arrival-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 10vw, 7rem);
+    line-height: 1;
+    color: var(--deep);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 1.2s ease-out 0.6s forwards;
+  }
+
+  .arrival-name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(4rem, 14vw, 10rem);
+    line-height: 1;
+    color: var(--rose);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 1.2s ease-out 1s forwards;
+  }
+
+  .arrival-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: var(--deep);
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1.4s forwards;
+    margin-bottom: 4rem;
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  .begin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    background: transparent;
+    border: 1.5px solid var(--deep);
+    color: var(--deep);
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 1.2rem 2.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    opacity: 0;
+    animation: fadeUp 1s ease-out 1.8s forwards;
+    text-decoration: none;
+  }
+  .begin-btn:hover {
+    background: var(--deep);
+    color: var(--cream);
+    transform: translateY(-2px);
+  }
+  .begin-btn .arrow { transition: transform 0.3s ease; }
+  .begin-btn:hover .arrow { transform: translateX(4px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ CHAPTER HEADERS ============ */
+  .chapter-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .chapter-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.1;
+    color: var(--deep);
+    margin-bottom: 3rem;
+    text-align: center;
+    max-width: 800px;
+  }
+  .chapter-title em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  /* ============ CHAPTER 2: PORTRAIT ============ */
+  .chapter-portrait { background: var(--cream); }
+  .portrait-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: var(--deep);
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 4rem;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+  .portrait-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
+  }
+  .portrait-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .portrait-item:nth-child(1) { grid-column: 1 / 6; }
+  .portrait-item:nth-child(2) { grid-column: 7 / 13; margin-top: 6rem; }
+  .portrait-item:nth-child(3) { grid-column: 2 / 7; margin-top: 2rem; }
+  .portrait-item:nth-child(4) { grid-column: 8 / 13; margin-top: -2rem; }
+
+  .portrait-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(61, 40, 23, 0.15);
+    transition: transform 0.6s ease;
+  }
+  .portrait-item:hover .portrait-img { transform: scale(1.02); }
+
+  .portrait-caption {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--deep);
+    padding: 0 0.5rem;
+  }
+  .portrait-caption::before {
+    content: '— ';
+    color: var(--gold);
+  }
+
+  .portrait-closing {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.4rem;
+    color: var(--deep);
+    text-align: center;
+    max-width: 700px;
+    margin-top: 5rem;
+    line-height: 1.6;
+  }
+  .portrait-closing em {
+    color: var(--rose);
+    font-weight: 400;
+  }
+
+  /* ============ CHAPTER 3: THINGS I MISS ============ */
+  .chapter-miss {
+    background: linear-gradient(180deg, var(--cream) 0%, #ead4be 100%);
+  }
+  .miss-list {
+    max-width: 720px;
+    width: 100%;
+  }
+  .miss-item {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(61, 40, 23, 0.15);
+    display: flex;
+    gap: 2rem;
+    align-items: baseline;
+  }
+  .miss-item:last-child { border-bottom: none; }
+  .miss-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--rose);
+    flex-shrink: 0;
+    min-width: 40px;
+  }
+  .miss-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.45rem;
+    line-height: 1.4;
+    color: var(--deep);
+    font-weight: 300;
+  }
+
+  /* ============ CHAPTER 4: GREATEST HITS ============ */
+  .chapter-hits {
+    background: var(--deep);
+    color: var(--cream);
+  }
+  .chapter-hits .chapter-label { color: var(--peach); }
+  .chapter-hits .chapter-title { color: var(--cream); }
+  .chapter-hits .chapter-title em { color: var(--peach); }
+
+  .hits-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.15rem;
+    color: var(--peach);
+    text-align: center;
+    max-width: 560px;
+    margin-bottom: 4rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .hits-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 4rem;
+    max-width: 1000px;
+    width: 100%;
+  }
+  .hit-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .hit-card:nth-child(even) { margin-top: 4rem; }
+
+  .hit-img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hit-era {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--peach);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .hit-memory {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--cream);
+    font-weight: 300;
+  }
+  .hit-memory em {
+    font-style: italic;
+    color: var(--peach);
+  }
+
+  /* ============ CHAPTER 5: PEP TALK ============ */
+  .chapter-pep {
+    background: linear-gradient(180deg, #ead4be 0%, var(--cream) 100%);
+    position: relative;
+  }
+  .pep-letter {
+    max-width: 700px;
+    width: 100%;
+    padding: 4.5rem 3.5rem;
+    background: var(--cream-light);
+    border: 1px solid rgba(184, 137, 90, 0.3);
+    position: relative;
+    box-shadow: 0 30px 60px rgba(61, 40, 23, 0.12);
+  }
+  .pep-letter::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(184, 137, 90, 0.2);
+    pointer-events: none;
+  }
+  .pep-salutation {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--rose);
+    margin-bottom: 2rem;
+  }
+  .pep-body {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--deep);
+    font-weight: 300;
+  }
+  .pep-body p { margin-bottom: 1.5rem; }
+  .pep-body strong {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--rose-deep);
+  }
+  .pep-signoff {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--gold);
+    margin-top: 2rem;
+    line-height: 1.5;
+  }
+
+  /* ============ CHAPTER 6: THE EARTH ANSWER ============ */
+  .chapter-earth {
+    background: radial-gradient(ellipse at center, #1a2f3d 0%, #0f1a24 100%);
+    color: var(--cream);
+    overflow: hidden;
+    position: relative;
+  }
+  .chapter-earth .chapter-label { color: var(--peach); }
+  .chapter-earth .chapter-title { color: var(--cream); }
+  .chapter-earth .chapter-title em { color: var(--peach); }
+
+  .earth-visual {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%, #7ec8a8 0%, transparent 40%),
+      radial-gradient(circle at 70% 60%, #4a90a4 0%, transparent 50%),
+      radial-gradient(circle at 50% 80%, #a8d8b9 0%, transparent 35%),
+      linear-gradient(135deg, #2d5f7a 0%, #1a3d52 100%);
+    box-shadow:
+      0 0 60px rgba(126, 200, 168, 0.3),
+      inset -30px -30px 60px rgba(0, 0, 0, 0.4);
+    margin: 2rem 0 3rem;
+    animation: earthFloat 6s ease-in-out infinite;
+    position: relative;
+  }
+  @keyframes earthFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .earth-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+    line-height: 1.6;
+    color: var(--cream);
+    max-width: 640px;
+    text-align: center;
+  }
+  .earth-text em {
+    font-style: italic;
+    color: var(--peach);
+    font-weight: 400;
+  }
+  .earth-text p { margin-bottom: 1.5rem; }
+  .earth-text p:last-child { margin-bottom: 0; }
+
+  .star {
+    position: absolute;
+    background: var(--cream);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.9; }
+  }
+
+  /* ============ CHAPTER 7: WISH ============ */
+  .chapter-wish {
+    background: radial-gradient(ellipse at 70% 50%, #f8d4b8 0%, var(--cream) 70%);
+    text-align: center;
+    overflow: hidden;
+  }
+  .wish-orb {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--peach) 0%, transparent 70%);
+    filter: blur(60px);
+    opacity: 0.4;
+    top: 20%;
+    left: 10%;
+    animation: float 10s ease-in-out infinite;
+  }
+  .wish-content {
+    max-width: 720px;
+    position: relative;
+    z-index: 2;
+  }
+  .wish-list {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+    line-height: 1.7;
+    color: var(--deep);
+    margin-bottom: 3rem;
+  }
+  .wish-list em {
+    color: var(--rose);
+    font-weight: 400;
+  }
+  .wish-list p { margin-bottom: 1.2rem; }
+  .wish-joke {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.15rem;
+    color: var(--gold);
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid rgba(184, 137, 90, 0.3);
+    border-bottom: 1px solid rgba(184, 137, 90, 0.3);
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .wish-signature {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--deep);
+    letter-spacing: 0.05em;
+    margin-top: 3rem;
+    line-height: 1.8;
+  }
+  .wish-signature strong { color: var(--rose); font-weight: 500; }
+  .heart {
+    display: inline-block;
+    color: var(--rose);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .portrait-grid { display: flex; flex-direction: column; gap: 3rem; }
+    .portrait-item { margin-top: 0 !important; }
+    .hits-container { grid-template-columns: 1fr; }
+    .hit-card:nth-child(even) { margin-top: 0; }
+    .pep-letter { padding: 2.5rem 1.5rem; }
+    .miss-item { flex-direction: column; gap: 0.5rem; padding: 2rem 0; }
+    .music-toggle { top: 1rem; right: 1rem; padding: 0.5rem 1rem; font-size: 0.75rem; }
+    .earth-visual { width: 200px; height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Music toggle -->
+<div class="music-toggle paused" id="musicToggle">
+  <span class="music-icon"></span>
+  <span id="musicLabel">play our song</span>
+</div>
+<div id="ytPlayer" style="position:fixed; top:-1000px; left:-1000px; width:1px; height:1px;"></div>
+
+<!-- CHAPTER 1: ARRIVAL -->
+<section class="chapter-arrival" id="chapter-1">
+  <div class="floating-orb orb-1"></div>
+  <div class="floating-orb orb-2"></div>
+  <div class="floating-orb orb-3"></div>
+
+  <div class="arrival-label">A letter, in seven chapters</div>
+  <h1 class="arrival-title">happy birthday,</h1>
+  <div class="arrival-name">Anvi</div>
+  <p class="arrival-sub">because a text didn't feel like enough, and the miles between us needed filling somehow.</p>
+  <a href="#chapter-2" class="begin-btn">
+    <span>Begin</span>
+    <span class="arrow">→</span>
+  </a>
+</section>
+
+<!-- CHAPTER 2: PORTRAIT -->
+<section class="chapter-portrait" id="chapter-2">
+  <div class="chapter-label reveal">Chapter One</div>
+  <h2 class="chapter-title reveal">A portrait of <em>Avneesha</em>.</h2>
+  <p class="portrait-intro reveal">Because I don't think you see yourself the way the rest of us see you. So here — let me try.</p>
+
+  <div class="portrait-grid">
+    <div class="portrait-item reveal">
+      <div class="portrait-img" style="background-image: url('photos/photo-1.jpg');"></div>
+      <p class="portrait-caption">a pure soul with more ambition than she gives herself credit for, and a child inside her that she never let the world take away</p>
+    </div>
+    <div class="portrait-item reveal">
+      <div class="portrait-img" style="background-image: url('photos/photo-2.jpg');"></div>
+      <p class="portrait-caption">a lawyer by profession, but a Bharatnatyam dancer at heart — argument and art, living in the same person</p>
+    </div>
+    <div class="portrait-item reveal">
+      <div class="portrait-img" style="background-image: url('photos/photo-3.jpg');"></div>
+      <p class="portrait-caption">always the one giving people another chance to stay, another reason to hold on, another hand to pull the bond back together</p>
+    </div>
+    <div class="portrait-item reveal">
+      <div class="portrait-img" style="background-image: url('photos/photo-4.jpg');"></div>
+      <p class="portrait-caption">strong enough to stand alone, humble enough to set her ego aside for the people she loves — hard on the outside, impossibly soft inside</p>
+    </div>
+  </div>
+
+  <p class="portrait-closing reveal">And always — <em>always</em> — doing more than enough for everyone she cares about, and everyone she finds in need.</p>
+</section>
+
+<!-- CHAPTER 3: THINGS I MISS -->
+<section class="chapter-miss" id="chapter-3">
+  <div class="chapter-label reveal">Chapter Two</div>
+  <h2 class="chapter-title reveal">The things distance <em>keeps</em> from us.</h2>
+
+  <div class="miss-list">
+    <div class="miss-item reveal">
+      <div class="miss-num">i.</div>
+      <p class="miss-text">Sitting with you for hours, doing absolutely nothing.</p>
+    </div>
+    <div class="miss-item reveal">
+      <div class="miss-num">ii.</div>
+      <p class="miss-text">Our drives near Marine Drive in Patna. No destination. Just the road, and us.</p>
+    </div>
+    <div class="miss-item reveal">
+      <div class="miss-num">iii.</div>
+      <p class="miss-text">Exploring new cuisines with you, and taking you to your favorite dessert place like it was a small ceremony.</p>
+    </div>
+    <div class="miss-item reveal">
+      <div class="miss-num">iv.</div>
+      <p class="miss-text">Holding your hand. Hugging you. The ordinary things I didn't know I was keeping.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 4: GREATEST HITS -->
+<section class="chapter-hits" id="chapter-4">
+  <div class="chapter-label reveal">Chapter Three</div>
+  <h2 class="chapter-title reveal">Our <em>greatest</em> hits.</h2>
+  <p class="hits-intro reveal">Small, specific, ordinary moments I'll carry for the rest of my life.</p>
+
+  <div class="hits-container">
+    <div class="hit-card reveal">
+      <div class="hit-img" style="background-image: url('photos/photo-5.jpg');"></div>
+      <div class="hit-era">Memory One</div>
+      <p class="hit-memory">A parked car at Marine Drive. Your head on my shoulder. Your hand in mine. I remember that evening more clearly than most days of my life.</p>
+    </div>
+    <div class="hit-card reveal">
+      <div class="hit-img" style="background-image: url('photos/photo-6.jpg');"></div>
+      <div class="hit-era">Memory Two</div>
+      <p class="hit-memory">You, holding my hand while I drove. A <em>manual</em> car. I didn't change gears the entire ride. I'd rather have stalled on the road than let go of your hand.</p>
+    </div>
+    <div class="hit-card reveal">
+      <div class="hit-img" style="background-image: url('photos/photo-7.jpg');"></div>
+      <div class="hit-era">Memory Three</div>
+      <p class="hit-memory">Pune. You holding my hand as you fell asleep. You said the touch made you feel safe. I never told you — it made me feel like I had a purpose.</p>
+    </div>
+    <div class="hit-card reveal">
+      <div class="hit-img" style="background-image: url('photos/photo-8.jpg');"></div>
+      <div class="hit-era">Memory Four</div>
+      <p class="hit-memory">Those video calls that lasted for hours. One of us falling asleep, the other quietly working with the call still on. Somehow, that was its own kind of togetherness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 5: PEP TALK -->
+<section class="chapter-pep" id="chapter-5">
+  <div class="chapter-label reveal">Chapter Four</div>
+  <h2 class="chapter-title reveal">A letter, because you <em>need</em> to hear this.</h2>
+
+  <div class="pep-letter reveal">
+    <div class="pep-salutation">My dearest Anvi,</div>
+    <div class="pep-body">
+      <p>I've watched you go from carefree to carrying everyone around you. I've watched you fight through past relationship trauma, through health issues, through the quiet self-doubt no one else sees — and still finish your master's in the UK. Still keep going. Still come out softer, not harder.</p>
+
+      <p>I've watched you pick me up when I was down, sometimes before I even realized I was falling. When I moved to the US for my master's, it was <strong>the way you managed everything on your own</strong> that quietly taught me I could manage too. You may never know how much that saved me.</p>
+
+      <p>And now, you're fighting the job search stress, working part-time, and holding it together while your sister's wedding is around the corner. I see all of it. And I know you sometimes doubt your own hard work because the results haven't caught up yet.</p>
+
+      <p>So please hear this carefully: <strong>you don't have to prove anything to anyone.</strong> Not to your family. Not to anyone around you. Everyone who matters already believes in you — fully, without conditions. We're not waiting for you to become something. We already see who you are.</p>
+
+      <p>Whatever you choose, whatever comes next — <strong>you will be great at it.</strong> Not because I'm being nice. Because I've been watching. And the score is undefeated.</p>
+
+      <p>The results are coming. Until they do, be softer with yourself. The world is already hard enough, and no one is harder on Anvi than Anvi.</p>
+    </div>
+    <div class="pep-signoff">— always, in your corner,<br>your person.</div>
+  </div>
+</section>
+
+<!-- CHAPTER 6: THE EARTH ANSWER -->
+<section class="chapter-earth" id="chapter-6">
+  <div class="chapter-label reveal">Chapter Five</div>
+  <h2 class="chapter-title reveal">You once asked me <em>what you were</em>.</h2>
+
+  <div class="earth-visual reveal"></div>
+
+  <div class="earth-text reveal">
+    <p>You asked if you were the earth, the sun, the moon, or some other planet.</p>
+    <p>I said <em>the earth</em> — because the earth has life.</p>
+    <p>And that's you. You are the reason your people feel alive. You are the gravity that keeps us orbiting each other. You are the proof that something can hold so much, carry so much, and still <em>grow things</em>.</p>
+    <p>Two years later, I still stand by it.</p>
+  </div>
+</section>
+
+<!-- CHAPTER 7: WISH -->
+<section class="chapter-wish" id="chapter-7">
+  <div class="wish-orb"></div>
+  <div class="wish-content">
+    <div class="chapter-label reveal">Chapter Six</div>
+    <h2 class="chapter-title reveal">One <em>wish</em>, for the year ahead.</h2>
+    <div class="wish-list reveal">
+      <p>may this year bring you <em>every success</em> you've been working for.</p>
+      <p>every <em>happiness</em> you forget to ask for.</p>
+      <p>every <em>brand</em> on your wishlist — actually, make it two of each.</p>
+      <p>every <em>place</em> you've saved a pin on.</p>
+    </div>
+    <p class="wish-joke reveal">and if the universe has a slot open — maybe, <em>just maybe</em>, let us meet this year. it's been two years. at this point we're basically pen pals with better cameras.</p>
+    <div class="wish-signature reveal">happy birthday, Anvi. <span class="heart">♥</span><br><strong>it's you… it's always you.</strong></div>
+  </div>
+</section>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 120);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Stars on earth chapter
+  const earthSection = document.getElementById('chapter-6');
+  for (let i = 0; i < 60; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    earthSection.appendChild(star);
+  }
+
+  // Music — "It's You" by Henry Moodie
+  const YT_VIDEO_ID = 'PXGycbkbtW0';
+  let player;
+  let playing = false;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('ytPlayer', {
+      height: '1',
+      width: '1',
+      videoId: YT_VIDEO_ID,
+      playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: YT_VIDEO_ID },
+      events: { 'onReady': () => {} }
+    });
+  }
+
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  document.getElementById('musicToggle').addEventListener('click', () => {
+    if (!player || !player.playVideo) return;
+    const label = document.getElementById('musicLabel');
+    const toggle = document.getElementById('musicToggle');
+    if (!playing) {
+      player.playVideo();
+      label.textContent = 'pause our song';
+      toggle.classList.remove('paused');
+      playing = true;
+    } else {
+      player.pauseVideo();
+      label.textContent = 'play our song';
+      toggle.classList.add('paused');
+      playing = false;
+    }
+  });
+</script>
+
+</body>
+</html>
