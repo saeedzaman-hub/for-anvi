@@ -568,6 +568,79 @@
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.15); }
   }
+  /* ============ CHAPTER: GRADUATION INTERLUDE ============ */
+.chapter-grad {
+  background: linear-gradient(180deg, #ead4be 0%, #e5c9ae 100%);
+  padding: 6rem 2rem;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.grad-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  max-width: 1000px;
+  width: 100%;
+}
+.grad-photo-box {
+  flex: 0 0 40%;
+  max-width: 380px;
+}
+.grad-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background-image: url('photo-grad.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  box-shadow: 0 25px 50px rgba(61, 40, 23, 0.25);
+  transform: rotate(-2deg);
+  transition: transform 0.6s ease;
+}
+.grad-photo:hover { transform: rotate(0deg) scale(1.02); }
+.grad-text {
+  flex: 1;
+}
+.grad-label {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.grad-quote {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.3;
+  color: var(--deep);
+  margin-bottom: 2rem;
+}
+.grad-quote em {
+  color: var(--rose);
+  font-style: italic;
+  font-weight: 400;
+}
+.grad-subtext {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--deep);
+  opacity: 0.8;
+}
+@media (max-width: 768px) {
+  .grad-wrapper { flex-direction: column; gap: 2.5rem; text-align: center; }
+  .grad-photo-box { max-width: 280px; }
+  .grad-photo { transform: rotate(0deg); }
+}
 
   /* Scroll reveal */
   .reveal {
