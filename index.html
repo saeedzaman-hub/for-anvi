@@ -642,6 +642,188 @@
   .grad-photo { transform: rotate(0deg); }
 }
 
+/* ============ CONFETTI ============ */
+.confetti {
+  position: fixed;
+  top: -20px;
+  width: 10px;
+  height: 14px;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0.4; }
+}
+
+/* ============ SURPRISE BUTTON ============ */
+.surprise-section {
+  background: linear-gradient(135deg, #f5ede1 0%, #f0c8a3 100%);
+  padding: 5rem 2rem;
+  min-height: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.surprise-label {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.surprise-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.2;
+  color: var(--deep);
+  margin-bottom: 3rem;
+  max-width: 700px;
+}
+.surprise-title em { color: var(--rose); font-style: italic; }
+.surprise-box {
+  background: var(--cream-light);
+  border: 1px solid rgba(184, 137, 90, 0.3);
+  border-radius: 12px;
+  padding: 3rem 2.5rem;
+  max-width: 540px;
+  min-height: 180px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 20px 40px rgba(61, 40, 23, 0.1);
+  margin-bottom: 2rem;
+}
+.surprise-text {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  color: var(--deep);
+  text-align: center;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.surprise-text.fading { opacity: 0; transform: translateY(-10px); }
+.surprise-text em { color: var(--rose); }
+.surprise-btn {
+  background: var(--rose);
+  color: var(--cream);
+  border: none;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  padding: 1rem 2.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(216, 139, 122, 0.3);
+}
+.surprise-btn:hover {
+  background: var(--rose-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(216, 139, 122, 0.4);
+}
+.surprise-btn:active { transform: translateY(0); }
+
+/* ============ ENVELOPE REVEAL ============ */
+.envelope-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  min-height: 200px;
+  align-items: center;
+}
+.envelope {
+  width: 280px;
+  height: 180px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+.envelope:hover { transform: translateY(-4px) scale(1.02); }
+.envelope-body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #d88b7a 0%, #b8685a 100%);
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgba(61, 40, 23, 0.25);
+}
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 90px solid #c27a69;
+  transform-origin: top center;
+  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  z-index: 3;
+}
+.envelope.opened .envelope-flap { transform: rotateX(180deg); }
+.envelope-seal {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  background: var(--cream-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--rose-deep);
+  font-size: 1.5rem;
+  z-index: 4;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: opacity 0.4s ease;
+}
+.envelope.opened .envelope-seal { opacity: 0; }
+.envelope-hint {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+}
+.envelope-wrap.hidden, .envelope-hint.hidden { display: none; }
+.pep-letter {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 3.5rem;
+  opacity: 0;
+  transition: max-height 1s ease, opacity 0.8s ease 0.3s, padding 0.6s ease;
+}
+.pep-letter.revealed {
+  max-height: 4000px;
+  opacity: 1;
+  padding: 4.5rem 3.5rem;
+}
+@media (max-width: 768px) {
+  .envelope { width: 220px; height: 140px; }
+  .envelope-flap { border-left-width: 110px; border-right-width: 110px; border-top-width: 70px; }
+  .envelope-seal { top: 45px; width: 40px; height: 40px; font-size: 1.2rem; }
+  .surprise-box { padding: 2rem 1.5rem; }
+  .pep-letter.revealed { padding: 2.5rem 1.5rem; }
+}
+
   /* Scroll reveal */
   .reveal {
     opacity: 0;
@@ -719,6 +901,16 @@
   <p class="portrait-closing reveal">And always — <em>always</em> — doing more than enough for everyone she cares about, and everyone she finds in need.</p>
 </section>
 
+<!-- SURPRISE BUTTON SECTION -->
+<section class="surprise-section">
+  <div class="surprise-label reveal">a little game</div>
+  <h2 class="surprise-title reveal">press for a <em>random reason</em> you're ruining the curve for everyone else.</h2>
+  <div class="surprise-box reveal">
+    <p class="surprise-text" id="surpriseText">you care more than any reasonable person should, and we are <em>so</em> lucky for it.</p>
+  </div>
+  <button class="surprise-btn" id="surpriseBtn">give me another</button>
+</section>
+
 <!-- CHAPTER 3: THINGS I MISS -->
 <section class="chapter-miss" id="chapter-3">
   <div class="chapter-label reveal">Chapter Two</div>
@@ -792,8 +984,16 @@
 <section class="chapter-pep" id="chapter-5">
   <div class="chapter-label reveal">Chapter Four</div>
   <h2 class="chapter-title reveal">A letter, because you <em>need</em> to hear this.</h2>
+ <div class="envelope-wrap reveal" id="envelopeWrap">
+  <div class="envelope" id="envelope">
+    <div class="envelope-body"></div>
+    <div class="envelope-flap"></div>
+    <div class="envelope-seal">A</div>
+  </div>
+</div>
+<p class="envelope-hint reveal" id="envelopeHint">— tap to open —</p>
 
-  <div class="pep-letter reveal">
+  <div class="pep-letter" id="pepLetter">
     <div class="pep-salutation">My dearest Anvi,</div>
     <div class="pep-body">
       <p>I've been trying to write this for days. Every version started sounding like something printed inside a greeting card, and you know that's not how I talk to you. So I'm writing this the way I would if you were sitting next to me and quietly stealing my coffee.</p>
@@ -911,6 +1111,80 @@
       playing = false;
     }
   });
+// ============ CONFETTI ON BEGIN ============
+const confettiColors = ['#d88b7a', '#f0c8a3', '#b8895a', '#b8685a', '#f5ede1', '#ead4be'];
+function burstConfetti() {
+  const count = 80;
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (10 + Math.random() * 10) + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '2px' : '50%';
+    const duration = 2.5 + Math.random() * 2;
+    const delay = Math.random() * 0.8;
+    piece.style.animation = `confettiFall ${duration}s ease-in ${delay}s forwards`;
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), (duration + delay) * 1000);
+  }
+}
+document.querySelector('.begin-btn').addEventListener('click', burstConfetti);
+
+// ============ SURPRISE BUTTON ============
+const compliments = [
+  "you care more than any reasonable person should, and we are <em>so</em> lucky for it.",
+  "you argue like a lawyer and love like a <em>poet</em>. confusing combo. completely iconic.",
+  "you remember everyone's order, everyone's birthday, everyone's bad day. <em>who remembers yours?</em> we're working on it.",
+  "your laugh is objectively <em>too loud</em>, and it has saved approximately fourteen of my worst days.",
+  "you dance like no one's watching, and honestly — people <em>are</em> watching. they just can't keep up.",
+  "you have the rare gift of making people feel seen. it is not small. it is not common. it is <em>entirely you</em>.",
+  "you forgive people faster than they deserve. it's either enlightenment or poor judgment. probably <em>both.</em>",
+  "you cry at dog videos but stay calm in actual crises. the emotional priorities of a <em>genius.</em>",
+  "you have the uncanny ability to know when someone needs a call. you're basically a <em>human wifi signal</em> for love.",
+  "you are stubborn, soft, sharp, and silly — usually in <em>the same five minutes.</em>",
+  "you make boring things fun. chai becomes an event. grocery runs become therapy sessions. it's a <em>superpower.</em>",
+  "you've been underestimated your whole life and you <em>keep proving them wrong</em>. quietly. consistently. predictably.",
+  "you are the friend everyone wishes they had. the rest of us are just <em>hoarding you</em>.",
+  "you hype your people louder than you hype yourself. today we <em>hype you back</em>.",
+  "you are, by a wide margin, the most anvi person I know. objectively unmatched."
+];
+let lastComplimentIndex = 0;
+const surpriseBtn = document.getElementById('surpriseBtn');
+const surpriseText = document.getElementById('surpriseText');
+if (surpriseBtn) {
+  surpriseBtn.addEventListener('click', () => {
+    let next;
+    do {
+      next = Math.floor(Math.random() * compliments.length);
+    } while (next === lastComplimentIndex && compliments.length > 1);
+    lastComplimentIndex = next;
+    surpriseText.classList.add('fading');
+    setTimeout(() => {
+      surpriseText.innerHTML = compliments[next];
+      surpriseText.classList.remove('fading');
+    }, 400);
+  });
+}
+
+// ============ ENVELOPE REVEAL ============
+const envelope = document.getElementById('envelope');
+const envelopeWrap = document.getElementById('envelopeWrap');
+const envelopeHint = document.getElementById('envelopeHint');
+const pepLetter = document.getElementById('pepLetter');
+if (envelope) {
+  envelope.addEventListener('click', () => {
+    envelope.classList.add('opened');
+    setTimeout(() => {
+      envelopeWrap.classList.add('hidden');
+      envelopeHint.classList.add('hidden');
+      pepLetter.classList.add('revealed');
+      pepLetter.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 900);
+  });
+}
+  
 </script>
 
 </body>
