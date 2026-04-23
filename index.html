@@ -824,6 +824,229 @@
   .pep-letter.revealed { padding: 2.5rem 1.5rem; }
 }
 
+  /* ============ PORTRAIT CAROUSEL ============ */
+.portrait-carousel {
+  position: relative;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+.carousel-track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 25px 50px rgba(61, 40, 23, 0.18);
+}
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.carousel-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.carousel-photo {
+  width: 100%;
+  height: 75%;
+  background-size: cover;
+  background-position: center;
+}
+.carousel-caption {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--deep);
+  text-align: center;
+  padding: 1.5rem 2rem;
+  background: var(--cream-light);
+  height: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carousel-caption::before { content: '— '; color: var(--gold); }
+
+.carousel-arrow {
+  position: absolute;
+  top: 37%;
+  transform: translateY(-50%);
+  background: rgba(245, 237, 225, 0.9);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  color: var(--deep);
+  cursor: pointer;
+  font-family: serif;
+  line-height: 1;
+  transition: all 0.3s ease;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(61, 40, 23, 0.15);
+}
+.carousel-arrow:hover { background: var(--cream); transform: translateY(-50%) scale(1.1); }
+.carousel-arrow.prev { left: -22px; }
+.carousel-arrow.next { right: -22px; }
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(61, 40, 23, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  padding: 0;
+}
+.carousel-dot.active {
+  background: var(--rose);
+  transform: scale(1.3);
+}
+
+/* ============ SONGS SECTION ============ */
+.songs-section {
+  background: linear-gradient(180deg, #1a2f3d 0%, #0f1a24 100%);
+  color: var(--cream);
+  padding: 5rem 2rem;
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.songs-section .chapter-label { color: var(--peach); }
+.songs-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.2;
+  color: var(--cream);
+  margin-bottom: 3.5rem;
+  max-width: 700px;
+}
+.songs-title em { color: var(--peach); font-style: italic; }
+
+.songs-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 950px;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.song-card {
+  background: rgba(245, 237, 225, 0.05);
+  border: 1px solid rgba(240, 200, 163, 0.2);
+  border-radius: 12px;
+  padding: 1.8rem 1.4rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.song-card:hover {
+  background: rgba(245, 237, 225, 0.1);
+  border-color: rgba(240, 200, 163, 0.5);
+  transform: translateY(-4px);
+}
+.song-card.playing {
+  background: rgba(216, 139, 122, 0.15);
+  border-color: var(--rose);
+}
+
+.song-art {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 1.2rem;
+}
+.song-vinyl {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, var(--peach) 0%, var(--peach) 18%, #1a1a1a 18%, #1a1a1a 25%, #2a2a2a 25%, #2a2a2a 100%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.4s ease;
+}
+.song-card.playing .song-vinyl {
+  animation: vinylSpin 4s linear infinite;
+}
+@keyframes vinylSpin {
+  to { transform: rotate(360deg); }
+}
+.song-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--cream);
+  opacity: 0.95;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+.song-card.playing .song-play { content: '⏸'; }
+.song-card.playing .song-play::before { content: '⏸'; }
+.song-card.playing .song-play { font-size: 0; }
+.song-card.playing .song-play::before { font-size: 1.4rem; }
+
+.song-title {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  color: var(--cream);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.02em;
+}
+.song-line {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--peach);
+  opacity: 0.9;
+}
+.song-line em { color: var(--cream); font-weight: 400; }
+
+.songs-footer {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+}
+.songs-footer em { color: var(--peach); }
+
+@media (max-width: 768px) {
+  .carousel-arrow.prev { left: -8px; }
+  .carousel-arrow.next { right: -8px; }
+  .carousel-arrow { width: 36px; height: 36px; font-size: 1.3rem; }
+  .carousel-caption { font-size: 1rem; padding: 1rem 1.2rem; }
+  .songs-row { grid-template-columns: 1fr; gap: 1.2rem; max-width: 380px; }
+  .song-card { padding: 1.4rem 1.2rem; }
+}
+
+/* Scroll reveal */
+
   /* Scroll reveal */
   .reveal {
     opacity: 0;
@@ -879,24 +1102,29 @@
   <h2 class="chapter-title reveal">A portrait of <em>Avneesha</em>.</h2>
   <p class="portrait-intro reveal">Because I don't think you see yourself the way the rest of us see you. So here, let me try.</p>
 
-  <div class="portrait-grid">
-    <div class="portrait-item reveal">
-      <div class="portrait-img" style="background-image: url('photo-1.jpg');"></div>
-      <p class="portrait-caption">a pure soul with more ambition than she gives herself credit for, and a child inside her that she never let the world take away</p>
+ <div class="portrait-carousel reveal">
+  <div class="carousel-track" id="carouselTrack">
+    <div class="carousel-slide active">
+      <div class="carousel-photo" style="background-image: url('photo-1.jpg');"></div>
+      <p class="carousel-caption">a pure soul with more ambition than she gives herself credit for, and a child inside her that she never let the world take away</p>
     </div>
-    <div class="portrait-item reveal">
-      <div class="portrait-img" style="background-image: url('photo-3.jpg');"></div>
-      <p class="portrait-caption">a lawyer by profession, but a Bharatnatyam dancer at heart — argument and art, living in the same person</p>
+    <div class="carousel-slide">
+      <div class="carousel-photo" style="background-image: url('photo-3.jpg');"></div>
+      <p class="carousel-caption">a lawyer by profession, but a Bharatnatyam dancer at heart. argument and art, living in the same person.</p>
     </div>
-    <div class="portrait-item reveal">
-      <div class="portrait-img" style="background-image: url('photo-2.jpg');"></div>
-      <p class="portrait-caption">always the one giving people another chance to stay, another reason to hold on, another hand to pull the bond back together</p>
+    <div class="carousel-slide">
+      <div class="carousel-photo" style="background-image: url('photo-2.jpg');"></div>
+      <p class="carousel-caption">always the one giving people another chance to stay, another reason to hold on, another hand to pull the bond back together</p>
     </div>
-    <div class="portrait-item reveal">
-      <div class="portrait-img" style="background-image: url('photo-4.jpg');"></div>
-      <p class="portrait-caption">strong enough to stand alone, humble enough to set her ego aside for the people she loves, hard on the outside, impossibly soft inside</p>
+    <div class="carousel-slide">
+      <div class="carousel-photo" style="background-image: url('photo-4.jpg');"></div>
+      <p class="carousel-caption">strong enough to stand alone, humble enough to set her ego aside for the people she loves. hard on the outside, impossibly soft inside.</p>
     </div>
   </div>
+  <button class="carousel-arrow prev" id="carouselPrev" aria-label="previous">‹</button>
+  <button class="carousel-arrow next" id="carouselNext" aria-label="next">›</button>
+  <div class="carousel-dots" id="carouselDots"></div>
+</div>
 
   <p class="portrait-closing reveal">And always — <em>always</em> — doing more than enough for everyone she cares about, and everyone she finds in need.</p>
 </section>
@@ -993,29 +1221,31 @@
 </div>
 <p class="envelope-hint reveal" id="envelopeHint">— tap to open —</p>
 
-  <div class="pep-letter" id="pepLetter">
+ <div class="pep-letter" id="pepLetter">
     <div class="pep-salutation">My dearest Anvi,</div>
     <div class="pep-body">
-      <p>I've been trying to write this for days. Every version started sounding like something printed inside a greeting card, and you know that's not how I talk to you. So I'm writing this the way I would if you were sitting next to me and quietly stealing my coffee.</p>
+      <p>I've been trying to write this for days. Every version sounded too much like a card. So I'm just writing it the way I'd say it if you were here, quietly stealing my coffee.</p>
 
-      <p>This year has been heavy for you. I've heard it in the pauses between your sentences and in the way your voice changes when I ask how you actually are. You carry a lot without saying much about it. You always have. And I just want you to know, <strong>I see it. I've always seen it.</strong></p>
+      <p>This year has been heavy for you. I hear it in the pauses. In the way your voice changes when I ask how you actually are. You carry so much without saying anything, you always have, and I just want you to know, <strong>I see it. I've always seen it.</strong></p>
 
-      <p>You've been handling too many things at once: the job search, unexplained rejections (which are honestly very rude), part-time work, a sister's wedding, health, family, expectations, all of it. And somehow, even inside all that, you still show up for everyone else. You still check on me. <strong>That's not ordinary strength. That's just very you.</strong></p>
+      <p>The job hunt, the rejections (rude, honestly), the part-time work, your sister's wedding, your health, your family, all of it at once. And you <em>still</em> ask how I'm doing. You still show up for everyone. <strong>That's the part that gets me.</strong> Because no one is showing up for you the way you show up for them, and that's not fair, and someone needs to say it.</p>
 
-      <p>There's something I don't think I've ever said properly: when I moved to the US and everything felt unfamiliar, I held it together because <strong>I had already watched you do it first.</strong> Quietly. Without making a big thing of how hard it was. I remember thinking, if she can do this, I can too. You made that year easier for me just by being who you are.</p>
+      <p>Which is why I'm writing this. Because I've been thinking a lot about you lately, and there are things I've never told you properly.</p>
 
-      <p>You forget this about yourself, so I'm writing it here: you've already survived everything that was supposed to break you. The past. The health scares. You crossed countries on your own, finished your master's, and somehow came back <em>softer</em> instead of harder. Most people build walls. You didn't.</p>
+      <p>When I moved to the US and nothing made sense, I held it together because <strong>I had already watched you do it.</strong> Quietly. Without making it a big thing. I kept thinking, if she can, I can. You got me through that whole year without even knowing it. That's the kind of person you are. <em>You hold people up just by existing in their lives.</em></p>
 
-      <p>About the job and all the waiting right now, <strong>you don't have to prove anything.</strong> Not to your family. Not to your friends. Not even to that version of yourself that keeps moving the finish line further away. You were already enough before any of this. You still are.</p>
+      <p>And you forget this about yourself, so I'm writing it here. You've already survived everything that was supposed to break you. The past. The health scares. You crossed a country alone, finished your master's, and somehow grew <em>softer</em> instead of harder. Most people would have built walls. You didn't. That's not weakness. <strong>That's the bravest thing about you.</strong></p>
 
-      <p>Also, the world has a very consistent habit of eventually giving you the things you quietly work for. I've been watching that pattern for years. </p>
+      <p>So please hear me when I say this. The love you give people never really gets lost. It comes back. Sometimes in different forms, sometimes through different people, sometimes years after you'd given up on it. And no one I know gives love the way you do. So if you're keeping score, <strong>the universe owes you.</strong> A lot. And it'll pay up. It always does.</p>
 
-      <p>So until the next chapter catches up with you, be a little kinder to yourself.</p>
+      <p>I'll be honest with you about something else, because tonight feels like the night for honesty. I'm a little jealous of the people who get to be near you. The ones who hear your laugh in person, hug you on a bad day, sit next to you in silence. I get a screen, a delay, and a time zone that never cooperates. And even with all of that between us, you're still one of the closest people in my life. Which tells me something. It tells me <em>distance was never going to be the thing that decided what we are.</em> Imagine what we'll be when the world finally lets us be in the same place.</p>
 
-      <p>Take care of the girl I love. She's done a lot this year. And she deserves someone firmly on her side, <em>especially herself.</em></p>
+      <p>Until then, <strong>you don't have to prove anything to anyone.</strong> Not your family. Not your friends. Not the version of you that keeps moving the finish line. You were already enough before any of this. You still are.</p>
+
+      <p>So be a little kinder to yourself this year. Take care of the girl I love. She's done a lot. She deserves someone firmly on her side. <em>Especially herself.</em></p>
     </div>
-    <div class="pep-signoff">— always in your corner,<br>your person.</div>
-  </div>
+    <div class="pep-signoff">always in your corner,<br>your person.</div>
+</div>
   </div>
 </section>
 
@@ -1028,12 +1258,49 @@
 
   <div class="earth-text reveal">
     <p>You asked if you were the earth, the sun, the moon, or some other planet.</p>
-    <p>I said <em>the earth</em>, because the earth has life.</p>
-    <p>And that's you. You are the reason your people feel alive. You are the gravity that keeps us orbiting each other. You are the proof that something can hold so much, carry so much, and still <em>grow things</em>.</p>
-    <p>Two years later, I still stand by it.</p>
-  </div>
+    <p>I told you <em>the earth</em>, because the earth has life. And honestly, I was just trying to keep up with your question. But I've thought about it a lot since then, and I meant it more than I knew how to say at the time.</p>
+    <p>You really are the earth, Anvi. You're the reason the people around you feel alive. You hold so much and still find ways to give. You make even the heaviest things feel a little lighter just by being in them.</p>
+    <p>I'm glad I didn't say <em>the moon</em>. The moon only shines because something else lit it up. <strong>You light things up on your own.</strong></p>
+</div>
 </section>
 
+<!-- SONGS SECTION -->
+<section class="songs-section">
+  <div class="chapter-label reveal">a little soundtrack</div>
+  <h2 class="songs-title reveal">songs that play when i <em>think of you.</em></h2>
+
+  <div class="songs-row">
+    <div class="song-card reveal" data-yt="tHf-ZXNK800">
+      <div class="song-art">
+        <div class="song-vinyl"></div>
+        <div class="song-play">▶</div>
+      </div>
+      <div class="song-title">ye dil tum bin lagta nahi</div>
+      <p class="song-line">i can't think of anyone else when this plays.</p>
+    </div>
+
+    <div class="song-card reveal" data-yt="LV_wiOhO40Q">
+      <div class="song-art">
+        <div class="song-vinyl"></div>
+        <div class="song-play">▶</div>
+      </div>
+      <div class="song-title">dooron dooron</div>
+      <p class="song-line">you sent me this. and every time he sings <em>"kahaan main, kahaan tu"</em>, it hits a little too close.</p>
+    </div>
+
+    <div class="song-card reveal" data-yt="cStOvI74hQo">
+      <div class="song-art">
+        <div class="song-vinyl"></div>
+        <div class="song-play">▶</div>
+      </div>
+      <div class="song-title">dekha hi nahi</div>
+      <p class="song-line"><em>"kitne phool dekhe maine, tere jaisa koi mehka hi nahi."</em> reminds me of how your hair smelled when you'd rest your head on my shoulder.</p>
+    </div>
+  </div>
+
+  <p class="songs-footer reveal">— <em>"it's you"</em> is still our song. always. —</p>
+</section>
+  
 <!-- CHAPTER 7: WISH -->
 <section class="chapter-wish" id="chapter-7">
   <div class="wish-orb"></div>
@@ -1184,6 +1451,94 @@ if (envelope) {
     }, 900);
   });
 }
+
+// ============ PORTRAIT CAROUSEL ============
+const slides = document.querySelectorAll('.carousel-slide');
+const dotsContainer = document.getElementById('carouselDots');
+let currentSlide = 0;
+let carouselTimer;
+
+if (slides.length > 0 && dotsContainer) {
+  // Build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function goToSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    document.querySelectorAll('.carousel-dot')[currentSlide].classList.remove('active');
+    currentSlide = (index + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    document.querySelectorAll('.carousel-dot')[currentSlide].classList.add('active');
+    resetCarouselTimer();
+  }
+
+  function resetCarouselTimer() {
+    clearInterval(carouselTimer);
+    carouselTimer = setInterval(() => goToSlide(currentSlide + 1), 5500);
+  }
+
+  document.getElementById('carouselPrev').addEventListener('click', () => goToSlide(currentSlide - 1));
+  document.getElementById('carouselNext').addEventListener('click', () => goToSlide(currentSlide + 1));
+  resetCarouselTimer();
+}
+
+// ============ SONGS PLAYER ============
+const songCards = document.querySelectorAll('.song-card');
+let currentlyPlayingCard = null;
+
+songCards.forEach(card => {
+  card.addEventListener('click', () => {
+    const ytId = card.getAttribute('data-yt');
+    if (!player || !player.loadVideoById) return;
+
+    if (currentlyPlayingCard === card) {
+      // Tapping the same card pauses it
+      player.pauseVideo();
+      card.classList.remove('playing');
+      currentlyPlayingCard = null;
+      // Reset music toggle to default
+      document.getElementById('musicLabel').textContent = 'play our song';
+      document.getElementById('musicToggle').classList.add('paused');
+      playing = false;
+      return;
+    }
+
+    // Pause any currently playing card
+    if (currentlyPlayingCard) currentlyPlayingCard.classList.remove('playing');
+
+    // Play the new song
+    player.loadVideoById(ytId);
+    card.classList.add('playing');
+    currentlyPlayingCard = card;
+
+    // Update top-right toggle to reflect what's playing
+    const songTitle = card.querySelector('.song-title').textContent;
+    document.getElementById('musicLabel').textContent = 'playing: ' + songTitle;
+    document.getElementById('musicToggle').classList.remove('paused');
+    playing = true;
+  });
+});
+
+// When user clicks main music toggle, return to "It's You"
+const originalToggle = document.getElementById('musicToggle');
+const originalHandler = originalToggle.onclick;
+originalToggle.addEventListener('click', () => {
+  // If a song card is playing, return to "It's You"
+  if (currentlyPlayingCard) {
+    currentlyPlayingCard.classList.remove('playing');
+    currentlyPlayingCard = null;
+    if (player && player.loadVideoById) {
+      player.loadVideoById(YT_VIDEO_ID);
+      document.getElementById('musicLabel').textContent = 'pause our song';
+      document.getElementById('musicToggle').classList.remove('paused');
+      playing = true;
+    }
+  }
+});  
   
 </script>
 
