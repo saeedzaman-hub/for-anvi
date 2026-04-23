@@ -289,37 +289,59 @@
   }
 
   /* ============ CHAPTER 3: THINGS I MISS ============ */
-  .chapter-miss {
-    background: linear-gradient(180deg, var(--cream) 0%, #ead4be 100%);
-  }
-  .miss-list {
-    max-width: 720px;
-    width: 100%;
-  }
-  .miss-item {
-    padding: 2.5rem 0;
-    border-bottom: 1px solid rgba(61, 40, 23, 0.15);
-    display: flex;
-    gap: 2rem;
-    align-items: baseline;
-  }
-  .miss-item:last-child { border-bottom: none; }
-  .miss-num {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 2rem;
-    color: var(--rose);
-    flex-shrink: 0;
-    min-width: 40px;
-  }
-  .miss-text {
-    font-family: 'Fraunces', serif;
-    font-size: 1.45rem;
-    line-height: 1.4;
-    color: var(--deep);
-    font-weight: 300;
-  }
-
+  /* ============ THINGS I MISS — TYPEWRITER ============ */
+.miss-typewriter {
+  max-width: 720px;
+  width: 100%;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 2rem 1rem;
+}
+.miss-line {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.5;
+  color: var(--deep);
+  font-style: italic;
+  margin: 0;
+  display: inline;
+}
+.miss-cursor {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--rose);
+  font-weight: 300;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  display: inline;
+}
+.miss-cursor.hidden { opacity: 0; }
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.miss-progress {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+.miss-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(61, 40, 23, 0.2);
+  transition: all 0.5s ease;
+}
+.miss-dot.active {
+  background: var(--rose);
+  transform: scale(1.4);
+}
   /* ============ CHAPTER 4: GREATEST HITS ============ */
   .chapter-hits {
     background: var(--deep);
@@ -1144,24 +1166,11 @@
   <div class="chapter-label reveal">Chapter Two</div>
   <h2 class="chapter-title reveal">The things distance <em>keeps</em> from us.</h2>
 
-  <div class="miss-list">
-    <div class="miss-item reveal">
-      <div class="miss-num">i.</div>
-      <p class="miss-text">Sitting with you for hours, doing absolutely nothing.</p>
-    </div>
-    <div class="miss-item reveal">
-      <div class="miss-num">ii.</div>
-      <p class="miss-text">Our drives near Marine Drive in Patna. No destination. Just the road, and us.</p>
-    </div>
-    <div class="miss-item reveal">
-      <div class="miss-num">iii.</div>
-      <p class="miss-text">Exploring new cuisines with you, and taking you to your favorite dessert place like it was a small ceremony.</p>
-    </div>
-    <div class="miss-item reveal">
-      <div class="miss-num">iv.</div>
-      <p class="miss-text">Holding your hand. Hugging you. The ordinary things I didn't know I was keeping.</p>
-    </div>
+  <<div class="miss-typewriter reveal">
+    <p class="miss-line" id="missLine"></p>
+    <span class="miss-cursor" id="missCursor">|</span>
   </div>
+  <div class="miss-progress" id="missProgress"></div>
 </section>
 
 <!-- CHAPTER 4: GREATEST HITS -->
@@ -1279,7 +1288,7 @@
       <p class="song-line">i can't think of anyone else when this plays.</p>
     </div>
 
-    <div class="song-card reveal" data-yt="J1gkaSA5jb8">
+    <div class="song-card reveal" data-mp3="dooron-dooron.mp3">
       <div class="song-art">
         <div class="song-vinyl"></div>
         <div class="song-play">▶</div>
@@ -1288,7 +1297,7 @@
       <p class="song-line">you sent me this. and every time he sings <em>"kahaan main, kahaan tu"</em>, it hits a little too close.</p>
     </div>
 
-    <div class="song-card reveal" data-yt="QGLHe7K0CQQ">
+    <div class="song-card reveal" data-mp3="dekha-hi-nahi.mp3">
       <div class="song-art">
         <div class="song-vinyl"></div>
         <div class="song-play">▶</div>
@@ -1490,17 +1499,21 @@ if (slides.length > 0 && dotsContainer) {
 const songCards = document.querySelectorAll('.song-card');
 let currentlyPlayingCard = null;
 
+// Audio element for MP3 playback
+const mp3Audio = new Audio();
+mp3Audio.loop = true;
+
 songCards.forEach(card => {
   card.addEventListener('click', () => {
     const ytId = card.getAttribute('data-yt');
-    if (!player || !player.loadVideoById) return;
+    const mp3Src = card.getAttribute('data-mp3');
 
+    // Tapping the same card pauses it
     if (currentlyPlayingCard === card) {
-      // Tapping the same card pauses it
-      player.pauseVideo();
+      if (ytId && player && player.pauseVideo) player.pauseVideo();
+      if (mp3Src) mp3Audio.pause();
       card.classList.remove('playing');
       currentlyPlayingCard = null;
-      // Reset music toggle to default
       document.getElementById('musicLabel').textContent = 'play our song';
       document.getElementById('musicToggle').classList.add('paused');
       playing = false;
@@ -1510,12 +1523,23 @@ songCards.forEach(card => {
     // Pause any currently playing card
     if (currentlyPlayingCard) currentlyPlayingCard.classList.remove('playing');
 
-    // Play the new song
-    player.loadVideoById(ytId);
+    // Pause both players (so only one is ever playing)
+    if (player && player.pauseVideo) player.pauseVideo();
+    mp3Audio.pause();
+
+    // Play the new song based on type
+    if (mp3Src) {
+      mp3Audio.src = mp3Src;
+      mp3Audio.play();
+    } else if (ytId) {
+      if (!player || !player.loadVideoById) return;
+      player.loadVideoById(ytId);
+    }
+
     card.classList.add('playing');
     currentlyPlayingCard = card;
 
-    // Update top-right toggle to reflect what's playing
+    // Update top-right toggle
     const songTitle = card.querySelector('.song-title').textContent;
     document.getElementById('musicLabel').textContent = 'playing: ' + songTitle;
     document.getElementById('musicToggle').classList.remove('paused');
@@ -1525,12 +1549,12 @@ songCards.forEach(card => {
 
 // When user clicks main music toggle, return to "It's You"
 const originalToggle = document.getElementById('musicToggle');
-const originalHandler = originalToggle.onclick;
 originalToggle.addEventListener('click', () => {
-  // If a song card is playing, return to "It's You"
+  // If an MP3 song is playing, stop it and return to "It's You"
   if (currentlyPlayingCard) {
     currentlyPlayingCard.classList.remove('playing');
     currentlyPlayingCard = null;
+    mp3Audio.pause();
     if (player && player.loadVideoById) {
       player.loadVideoById(YT_VIDEO_ID);
       document.getElementById('musicLabel').textContent = 'pause our song';
@@ -1538,7 +1562,92 @@ originalToggle.addEventListener('click', () => {
       playing = true;
     }
   }
-});  
+});
+
+// ============ THINGS I MISS — TYPEWRITER ============
+const missLines = [
+  "Sitting with you for hours, doing absolutely nothing.",
+  "Our drives near Marine Drive in Patna. No destination. Just the road, and us.",
+  "Exploring new cuisines with you, and taking you to your favorite dessert place like it was a small ceremony.",
+  "Holding your hand. Hugging you. The ordinary things I didn't know I was keeping."
+];
+
+const missLineEl = document.getElementById('missLine');
+const missCursorEl = document.getElementById('missCursor');
+const missProgressEl = document.getElementById('missProgress');
+let missCurrentIndex = 0;
+let missTimer;
+let missStarted = false;
+
+if (missLineEl && missProgressEl) {
+  // Build progress dots
+  missLines.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'miss-dot' + (i === 0 ? ' active' : '');
+    missProgressEl.appendChild(dot);
+  });
+
+  function updateMissDots() {
+    const dots = missProgressEl.querySelectorAll('.miss-dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === missCurrentIndex);
+    });
+  }
+
+  function typeText(text, callback) {
+    let i = 0;
+    missLineEl.textContent = '';
+    missCursorEl.classList.remove('hidden');
+    const typeInterval = setInterval(() => {
+      if (i < text.length) {
+        missLineEl.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(typeInterval);
+        callback();
+      }
+    }, 55);
+  }
+
+  function eraseText(callback) {
+    let text = missLineEl.textContent;
+    const eraseInterval = setInterval(() => {
+      if (text.length > 0) {
+        text = text.slice(0, -1);
+        missLineEl.textContent = text;
+      } else {
+        clearInterval(eraseInterval);
+        callback();
+      }
+    }, 25);
+  }
+
+  function cycleMiss() {
+    typeText(missLines[missCurrentIndex], () => {
+      // Hold the line for 3 seconds
+      missTimer = setTimeout(() => {
+        eraseText(() => {
+          missCurrentIndex = (missCurrentIndex + 1) % missLines.length;
+          updateMissDots();
+          // Brief pause before typing next line
+          missTimer = setTimeout(cycleMiss, 400);
+        });
+      }, 3000);
+    });
+  }
+
+  // Only start the animation when scrolled into view
+  const missObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !missStarted) {
+        missStarted = true;
+        cycleMiss();
+      }
+    });
+  }, { threshold: 0.4 });
+
+  missObserver.observe(document.querySelector('.miss-typewriter'));
+}
   
 </script>
 
